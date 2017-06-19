@@ -27,5 +27,6 @@ public class LexerDictionaries {
 
     private void FillReservedWords() {
         ReservedWords.put("print", TokenTypes.RW_PRINT);
+        ReservedWords.put("int", TokenTypes.RW_INT);
     }
 }
