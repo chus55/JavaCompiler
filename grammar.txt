@@ -1,0 +1,34 @@
+Code:
+	|	Statement_List
+
+Statement_List:
+	|	Statement Statement_List
+	|	Epsilon
+
+Statement:
+	|	Type identifier '=' Expression
+	|	"print" Expression
+
+Type:
+	|	"int"
+
+Expression:
+	|	Term Expression'
+
+Expression':
+	|	'+' Term Expression'
+	|	'-' Term Expression'
+	|	Epsilon
+
+Term:
+	|	Factor Term'
+
+Term':
+	|	'*' Factor Term'
+	|	'/' Factor Term'
+	|	Epsilon
+
+Factor:
+	|	identifier
+	|	literal_int
+	|	'(' Expression ')'
