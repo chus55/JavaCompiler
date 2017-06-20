@@ -39,6 +39,8 @@ public class LexerDictionaries {
     private void FillDoubleSymbols() {
         Symbols.put("==", TokenTypes.OP_EQUALS);
         Symbols.put("!=", TokenTypes.OP_DIFFERS);
+        Symbols.put(">=", TokenTypes.OP_GREATER_EQUAL);
+        Symbols.put("<=", TokenTypes.OP_LESS_EQUAL);
     }
 
     private void FillSymbols() {
@@ -52,6 +54,8 @@ public class LexerDictionaries {
         Symbols.put("}", TokenTypes.CLOSE_CRLY_BRKT);
         Symbols.put("=", TokenTypes.OP_ASSIGN);
         Symbols.put(";", TokenTypes.END_STATEMENT);
+        Symbols.put(">", TokenTypes.OP_GREATER_THAN);
+        Symbols.put("<", TokenTypes.OP_LESS_THAN);
     }
 
     private void FillReservedWords() {
@@ -59,5 +63,7 @@ public class LexerDictionaries {
         ReservedWords.put("int", TokenTypes.RW_INT);
         ReservedWords.put("boolean", TokenTypes.RW_BOOLEAN);
         ReservedWords.put("string", TokenTypes.RW_STRING);
+        ReservedWords.put("while", TokenTypes.RW_WHILE);
+        ReservedWords.put("if", TokenTypes.RW_IF);
     }
 }

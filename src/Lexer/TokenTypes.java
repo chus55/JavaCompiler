@@ -12,6 +12,8 @@ public enum TokenTypes {
     RW_INT,         //reserved word "int"
     RW_BOOLEAN,     //reserved word "boolean"
     RW_STRING,      //reserved word "string"
+    RW_WHILE,       //reserved word "while"
+    RW_IF,          //reserved word "if"
     OPEN_PAR,       //left parenthesis
     CLOSE_PAR,      //right parenthesis
     OPEN_CRLY_BRKT, //left curly bracket
@@ -23,6 +25,10 @@ public enum TokenTypes {
     OP_ASSIGN,      // '='
     OP_EQUALS,      // '=='
     OP_DIFFERS,     // '!='
+    OP_GREATER_THAN,// '>'
+    OP_LESS_THAN,   // '<'
+    OP_GREATER_EQUAL,// '>='
+    OP_LESS_EQUAL,  // '<='
     END_STATEMENT,  // ';'
     EOF             // End of File
 }

@@ -16,7 +16,7 @@ public class hello {
     }
 
     static void testLexer() throws LexerException {
-        Lexer miLexer = new Lexer("int a = 10;\nprint(a);\na = 20;\nstring hola = \"Hello world\";\nboolean miBool = true");
+        Lexer miLexer = new Lexer("int a = 10;\nprint(a);\na = 20;\nstring hola = \"Hello world\";\nboolean miBool = true;\nif(true){}\nwhile(true){}");
         List<Token> tokenList = miLexer.GetTokenList();
         for (Token token : tokenList) {
             System.out.println("Lexeme: " + token.Lexeme + ", Type: " + token.Type + ", Line: " + token.Line + ", Column: " + token.Column);
