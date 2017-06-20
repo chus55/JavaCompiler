@@ -36,6 +36,7 @@ public class ParserDictionaries {
     private void initStatements() {
         StatementPossibilites = new ArrayList<>();
         StatementPossibilites.add(TokenTypes.RW_PRINT);
+        StatementPossibilites.add(TokenTypes.ID);
         StatementPossibilites.addAll(Types);
     }
 

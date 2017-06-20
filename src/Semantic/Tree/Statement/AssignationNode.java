@@ -45,6 +45,9 @@ public class AssignationNode extends StatementNode{
     public void ValidateSemantic() throws SemanticException {
         Type rightType = RightValue.ValidateSemantic();
         if(!ContextTable.Instance.VariableExist(LeftValue.Name)){
+            if (getType() == null){
+                throw new SemanticException("Undeclared variable " + LeftValue.Name);
+            }
             if (rightType.getClass() == getType().getClass())
                 ContextTable.Instance.DeclareVariable(LeftValue.Name,rightType);
             else

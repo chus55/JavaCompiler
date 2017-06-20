@@ -67,6 +67,15 @@ public class Parser {
             assignationNode.setLeftValue(id);
             assignationNode.setRightValue(expression);
             return assignationNode;
+        } else if (utilities.isIdentifier(CurrentToken)){
+            IdNode id = consumeIdentifier();
+            consumeAssign();
+            ExpressionNode expression = Expression();
+            consumeEndOfStatement();
+            AssignationNode assignationNode = new AssignationNode();
+            assignationNode.setLeftValue(id);
+            assignationNode.setRightValue(expression);
+            return assignationNode;
         } else if (utilities.isPrint(CurrentToken)) {
             consumePrint();
             ExpressionNode expression = Expression();
