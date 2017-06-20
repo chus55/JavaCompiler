@@ -2,6 +2,12 @@ package Parser;
 
 import Lexer.Token;
 import Lexer.TokenTypes;
+import Semantic.Tree.Expression.*;
+import Semantic.Tree.Statement.AssignationNode;
+import Semantic.Tree.Statement.PrintNode;
+import Semantic.Tree.Statement.StatementNode;
+import Semantic.Types.IntType;
+import Semantic.Types.Type;
 import jdk.nashorn.internal.runtime.ParserException;
 
 import java.util.ArrayList;
@@ -25,93 +31,121 @@ public class Parser {
     }
     //-----------------Parser-----------------//
 
-    public void Parse() {
-        Code();
+    public List<StatementNode> Parse() {
+        List<StatementNode> code = Code();
         if (!utilities.isEof(CurrentToken))
         {
             throwParserException("Expected EOF");
         }
+        return code;
     }
 
-    private void Code() {
-        StatementList();
+    private List<StatementNode> Code() {
+        return StatementList();
     }
 
-    private void StatementList() {
+    private List<StatementNode> StatementList() {
         if (utilities.isStatement(CurrentToken)) {
-            Statement();
-            StatementList();
+            StatementNode statement = Statement();
+            List<StatementNode> statementList = StatementList();
+            statementList.add(0, statement);
+            return statementList;
         } else {
-            //Epsilon
+            return new ArrayList<StatementNode>();
         }
     }
 
-    private void Statement() {
+    private StatementNode Statement() {
         if (utilities.isType(CurrentToken)) {
-            consumeType();
-            consumeIdentifier();
+            Type type = consumeType();
+            IdNode id = consumeIdentifier();
             consumeAssign();
-            Expression();
+            ExpressionNode expression = Expression();
             consumeEndOfStatement();
+            AssignationNode assignationNode = new AssignationNode();
+            assignationNode.setType(type);
+            assignationNode.setLeftValue(id);
+            assignationNode.setRightValue(expression);
+            return assignationNode;
         } else if (utilities.isPrint(CurrentToken)) {
             consumePrint();
-            Expression();
+            ExpressionNode expression = Expression();
             consumeEndOfStatement();
+            PrintNode printNode = new PrintNode();
+            printNode.setValue(expression);
+            return printNode;
         } else{
             throwParserException("Expected identifier or 'print'");
         }
+        return null;
     }
 
-    private void Expression() {
-        Term();
-        ExpressionPrimed();
+    private ExpressionNode Expression() {
+        ExpressionNode term = Term();
+        return ExpressionPrimed(term);
     }
 
-    private void ExpressionPrimed() {
+    private ExpressionNode ExpressionPrimed(ExpressionNode param) {
         if (utilities.isSum(CurrentToken)) {
             consumeSum();
-            Term();
-            ExpressionPrimed();
+            ExpressionNode term = Term();
+            SumNode sumNode = new SumNode();
+            sumNode.setLeftOperand(param);
+            sumNode.setRightOperand(term);
+            return ExpressionPrimed(sumNode);
         } else if (utilities.isDiv(CurrentToken)) {
             consumeSub();
-            Term();
-            ExpressionPrimed();
+            ExpressionNode term = Term();
+            SubNode subNode = new SubNode();
+            subNode.setLeftOperand(param);
+            subNode.setRightOperand(term);
+            return ExpressionPrimed(subNode);
         } else {
-            //Epsilon
+            return param;
         }
     }
 
-    private void Term() {
-        Factor();
-        TermPrimed();
+    private ExpressionNode Term() {
+        ExpressionNode factor = Factor();
+        return TermPrimed(factor);
     }
 
-    private void TermPrimed() {
+    private ExpressionNode TermPrimed(ExpressionNode param) {
         if (utilities.isMult(CurrentToken)) {
             consumeMult();
-            Factor();
-            TermPrimed();
+            ExpressionNode factor = Factor();
+            MultNode multNode = new MultNode();
+            multNode.setLeftOperand(param);
+            multNode.setRightOperand(factor);
+            return TermPrimed(multNode);
         } else if (utilities.isDiv(CurrentToken)) {
             consumeDiv();
-            Factor();
-            TermPrimed();
+            ExpressionNode factor = Factor();
+            DivNode divNode = new DivNode();
+            divNode.setLeftOperand(param);
+            divNode.setRightOperand(factor);
+            return TermPrimed(divNode);
         } else {
-            //Epsilon
+            return param;
         }
     }
 
-    private void Factor() {
+    private ExpressionNode Factor() {
         if (utilities.isIdentifier(CurrentToken)) {
-            consumeIdentifier();
+            IdNode id = consumeIdentifier();
+            return id;
         } else if (utilities.isLiteralInt(CurrentToken)) {
-            consumeLiteralInt();
+            LiteralIntNode litInt = consumeLiteralInt();
+            return litInt;
         } else if (utilities.isOpenPar(CurrentToken)) {
             consumeOpenPar();
-            Expression();
+            ExpressionNode expression = Expression();
             consumeClosePar();
+            return expression;
         } else {
             throwParserException("Expected identifier, literal int, or '('");
         }
+        return null;
     }
 
     //-----------------Consumers-----------------//
@@ -165,18 +199,26 @@ public class Parser {
         consumeToken();
     }
 
-    void consumeIdentifier() {
+    IdNode consumeIdentifier() {
         if (CurrentToken.getType() != TokenTypes.ID) {
             throwParserException("Expected identifier");
         }
+        Token tmpToken = CurrentToken;
         consumeToken();
+        IdNode returnNode = new IdNode();
+        returnNode.setName(tmpToken.getLexeme());
+        return returnNode;
     }
 
-    void consumeLiteralInt() {
+    LiteralIntNode consumeLiteralInt() {
         if (CurrentToken.getType() != TokenTypes.LIT_INT) {
             throwParserException("Expected a literal int");
         }
+        Token tmpToken = CurrentToken;
         consumeToken();
+        LiteralIntNode returnNode = new LiteralIntNode();
+        returnNode.setValue(Integer.parseInt(tmpToken.getLexeme()));
+        return returnNode;
     }
 
     void consumeMult() {
@@ -214,11 +256,15 @@ public class Parser {
         CurrentToken = TokenList.get(TokenIndex);
     }
 
-    void consumeType() {
+    Type consumeType() {
         if (!utilities.isType(CurrentToken)) {
             throwParserException("Expected a type");
         }
+        Token tmpToken = CurrentToken;
         consumeToken();
+        if (tmpToken.getType() == TokenTypes.RW_INT)
+            return new IntType();
+        return null;
     }
 
     void throwParserException(String msg) {

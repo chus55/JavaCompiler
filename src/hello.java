@@ -2,6 +2,7 @@ import Lexer.Lexer;
 import Lexer.Token;
 import Lexer.LexerException;
 import Parser.Parser;
+import Semantic.Tree.Statement.StatementNode;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public class hello {
     public static void main(String[] args) throws LexerException {
-        testParser();
+        testArbol();
     }
 
     static void testLexer() throws LexerException {
@@ -26,5 +27,15 @@ public class hello {
         List<Token> tokenList = miLexer.GetTokenList();
         Parser miParser = new Parser(tokenList);
         miParser.Parse();
+    }
+
+    static void testArbol() throws LexerException {
+        Lexer miLexer = new Lexer("int a = 10;\nprint(a);");
+        List<Token> tokenList = miLexer.GetTokenList();
+        Parser miParser = new Parser(tokenList);
+        List<StatementNode> parsedCode = miParser.Parse();
+        for (StatementNode statement : parsedCode) {
+            System.out.println(statement);
+        }
     }
 }
