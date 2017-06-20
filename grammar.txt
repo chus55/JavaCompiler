@@ -6,9 +6,9 @@ Statement_List:
 	|	Epsilon
 
 Statement:
-	|	Type identifier '=' Expression
-	|	identifier '=' Expression
-	|	"print" Expression
+	|	Type identifier '=' Expression ;
+	|	identifier '=' Expression ;
+	|	"print" Expression ;
 
 Type:
 	|	"int"
