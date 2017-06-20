@@ -1,5 +1,6 @@
 package Semantic.Tree.Statement;
 
+import Semantic.SemanticException;
 import Semantic.Tree.Expression.ExpressionNode;
 
 /**
@@ -18,8 +19,8 @@ public class PrintNode extends StatementNode {
     public ExpressionNode Value;
 
     @Override
-    public void ValidateSemantic() {
-
+    public void ValidateSemantic() throws SemanticException {
+        Value.ValidateSemantic();
     }
 
     @Override

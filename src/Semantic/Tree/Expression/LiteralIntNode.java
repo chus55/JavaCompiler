@@ -1,5 +1,8 @@
 package Semantic.Tree.Expression;
 
+import Semantic.Types.IntType;
+import Semantic.Types.Type;
+
 /**
  * Created by chusm on 6/20/2017.
  */
@@ -16,12 +19,14 @@ public class LiteralIntNode extends ExpressionNode {
     public int Value;
 
     @Override
-    public void ValidateSemantic() {
+    public Type ValidateSemantic() {
 
+        return new IntType();
     }
 
     @Override
-    public void Interpret() {
+    public Interpretation.Value Interpret() {
 
+        return null;
     }
 }

@@ -1,7 +1,9 @@
 package Semantic.Tree.Statement;
 
+import Semantic.SemanticException;
 import Semantic.Tree.Expression.ExpressionNode;
 import Semantic.Tree.Expression.IdNode;
+import Semantic.Types.ContextTable;
 import Semantic.Types.Type;
 
 /**
@@ -40,8 +42,20 @@ public class AssignationNode extends StatementNode{
     public ExpressionNode RightValue;
 
     @Override
-    public void ValidateSemantic() {
-
+    public void ValidateSemantic() throws SemanticException {
+        Type rightType = RightValue.ValidateSemantic();
+        if(!ContextTable.Instance.VariableExist(LeftValue.Name)){
+            if (rightType.getClass() == getType().getClass())
+                ContextTable.Instance.DeclareVariable(LeftValue.Name,rightType);
+            else
+                throw new SemanticException("Can't assign " +  rightType.toString() + " to " + getType().toString() );
+        }
+        else
+        {
+            Type leftType = ContextTable.Instance.GetVariable(LeftValue.Name);
+            if(leftType.getClass() != rightType.getClass())
+                throw new SemanticException("Can't assign " +  rightType.toString() + " to " + leftType.toString() );
+        }
     }
 
     @Override

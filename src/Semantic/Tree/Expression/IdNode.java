@@ -1,5 +1,10 @@
 package Semantic.Tree.Expression;
 
+import Interpretation.Value;
+import Semantic.SemanticException;
+import Semantic.Types.ContextTable;
+import Semantic.Types.Type;
+
 /**
  * Created by chusm on 6/20/2017.
  */
@@ -16,12 +21,15 @@ public class IdNode extends ExpressionNode{
     public String Name;
 
     @Override
-    public void ValidateSemantic() {
-
+    public Type ValidateSemantic() throws SemanticException {
+        if (!ContextTable.Instance.VariableExist(Name))
+            throw new SemanticException("Variable " + Name + " does not exist.");
+        return ContextTable.Instance.GetVariable(Name);
     }
 
     @Override
-    public void Interpret() {
+    public Value Interpret() {
 
+        return null;
     }
 }
