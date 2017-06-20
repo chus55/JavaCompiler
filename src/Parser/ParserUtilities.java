@@ -12,7 +12,9 @@ public class ParserUtilities {
 
     ParserUtilities(ParserDictionaries pDictionaries) {
         dictionaries = pDictionaries;
-    };
+    }
+
+    ;
 
     boolean isExpression(Token token) {
         if (dictionaries.ExpressionPossibilities.contains(token.Type))
@@ -94,6 +96,18 @@ public class ParserUtilities {
 
     boolean isType(Token token) {
         if (dictionaries.Types.contains(token.Type))
+            return true;
+        return false;
+    }
+
+    boolean isWhile(Token token) {
+        if (token.getType() == TokenTypes.RW_WHILE)
+            return true;
+        return false;
+    }
+
+    boolean isIf(Token token) {
+        if (token.getType() == TokenTypes.RW_IF)
             return true;
         return false;
     }

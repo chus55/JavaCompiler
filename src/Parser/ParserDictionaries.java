@@ -31,6 +31,8 @@ public class ParserDictionaries {
     private void initTypes() {
         Types = new ArrayList<>();
         Types.add(TokenTypes.RW_INT);
+        Types.add(TokenTypes.RW_STRING);
+        Types.add(TokenTypes.RW_BOOLEAN);
     }
 
     private void initStatements() {
@@ -43,6 +45,8 @@ public class ParserDictionaries {
     private void initReservedWords() {
         ReservedWordsPossibilites = new ArrayList<>();
         ReservedWordsPossibilites.add(TokenTypes.RW_PRINT);
+        ReservedWordsPossibilites.add(TokenTypes.RW_WHILE);
+        ReservedWordsPossibilites.add(TokenTypes.RW_IF);
     }
 
     private void initAdditives() {

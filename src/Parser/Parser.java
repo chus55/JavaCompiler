@@ -276,6 +276,33 @@ public class Parser {
         return null;
     }
 
+    void consumeOpenCurlyBrackets() {
+        if (CurrentToken.getType() != TokenTypes.OPEN_CRLY_BRKT) {
+            throwParserException("Expected '{'");
+        }
+        consumeToken();
+    }
+
+    void consumeCloseCurlyBrackets() {
+        if (CurrentToken.getType() != TokenTypes.CLOSE_CRLY_BRKT) {
+            throwParserException("Expected '}'");
+        }
+        consumeToken();
+    }
+
+    void consumeWhile() {
+        if (CurrentToken.getType() != TokenTypes.RW_WHILE) {
+            throwParserException("Expected 'while'");
+        }
+        consumeToken();
+    }
+
+    void consumeIf() {
+        if (CurrentToken.getType() != TokenTypes.RW_IF) {
+            throwParserException("Expected 'if'");
+        }
+        consumeToken();
+    }
     void throwParserException(String msg) {
         throw new ParserException(msg + " at line: "+ CurrentToken.getLine() + ", column: " + CurrentToken.getColumn());
     }
