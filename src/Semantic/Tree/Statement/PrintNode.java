@@ -27,4 +27,9 @@ public class PrintNode extends StatementNode {
     public void Interpret() {
 
     }
+
+    @Override
+    public String GenerateCode() {
+        return "console.log(" + getValue() + ");";
+    }
 }

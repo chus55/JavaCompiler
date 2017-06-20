@@ -65,4 +65,13 @@ public class AssignationNode extends StatementNode{
     public void Interpret() {
 
     }
+
+    @Override
+    public String GenerateCode() {
+
+        if (this.getType() != null) {
+            return getLeftValue() + " = " + getRightValue() + ";";
+        }
+        return "var " + getLeftValue() + " = " + getRightValue() + ";";
+    }
 }

@@ -10,4 +10,5 @@ import Semantic.Types.Type;
 public abstract class ExpressionNode {
     public abstract Type ValidateSemantic() throws SemanticException;
     public abstract Value Interpret();
+    public abstract String GenerateCode();
 }

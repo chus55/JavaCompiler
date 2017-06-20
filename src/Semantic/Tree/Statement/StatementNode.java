@@ -8,4 +8,5 @@ import Semantic.SemanticException;
 public abstract class StatementNode {
     public abstract void ValidateSemantic() throws SemanticException;
     public abstract void Interpret();
+    public abstract String GenerateCode();
 }

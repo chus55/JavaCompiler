@@ -32,4 +32,9 @@ public class IdNode extends ExpressionNode{
 
         return null;
     }
+
+    @Override
+    public String GenerateCode() {
+        return this.getName();
+    }
 }

@@ -27,4 +27,9 @@ public class SumNode extends BinaryOperatorNode {
 
         return null;
     }
+
+    @Override
+    public String GenerateCode() {
+        return this.getLeftOperand() + " + " + this.getRightOperand();
+    }
 }

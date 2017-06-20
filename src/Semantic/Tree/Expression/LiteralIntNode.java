@@ -29,4 +29,9 @@ public class LiteralIntNode extends ExpressionNode {
 
         return null;
     }
+
+    @Override
+    public String GenerateCode() {
+        return Integer.toString(this.getValue());
+    }
 }
