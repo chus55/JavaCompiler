@@ -65,5 +65,6 @@ public class LexerDictionaries {
         ReservedWords.put("string", TokenTypes.RW_STRING);
         ReservedWords.put("while", TokenTypes.RW_WHILE);
         ReservedWords.put("if", TokenTypes.RW_IF);
+        ReservedWords.put("else", TokenTypes.RW_ELSE);
     }
 }

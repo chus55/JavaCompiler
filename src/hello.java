@@ -11,12 +11,15 @@ import java.util.List;
  * Created by chusm on 6/18/2017.
  */
 public class hello {
+
+    static String miStr = "int a = 10;\nprint(a);\na = 20;\nstring hola = \"Hello world\";\nboolean miBool = true;\nif(true){} else {}\nwhile(true){}";
+
     public static void main(String[] args) throws LexerException, SemanticException {
-        testLexer();
+        testArbol();
     }
 
     static void testLexer() throws LexerException {
-        Lexer miLexer = new Lexer("int a = 10;\nprint(a);\na = 20;\nstring hola = \"Hello world\";\nboolean miBool = true;\nif(true){}\nwhile(true){}");
+        Lexer miLexer = new Lexer(miStr);
         List<Token> tokenList = miLexer.GetTokenList();
         for (Token token : tokenList) {
             System.out.println("Lexeme: " + token.Lexeme + ", Type: " + token.Type + ", Line: " + token.Line + ", Column: " + token.Column);
@@ -24,7 +27,7 @@ public class hello {
     }
 
     static void testParser() throws LexerException {
-        Lexer miLexer = new Lexer("int a = 10;\nprint(a);\na = 20;");
+        Lexer miLexer = new Lexer(miStr);
         List<Token> tokenList = miLexer.GetTokenList();
         Parser miParser = new Parser(tokenList);
         miParser.Parse();
@@ -32,7 +35,7 @@ public class hello {
     }
 
     static void testArbol() throws LexerException {
-        Lexer miLexer = new Lexer("int a = 10;\nprint(a);\na = 20;");
+        Lexer miLexer = new Lexer(miStr);
         List<Token> tokenList = miLexer.GetTokenList();
         Parser miParser = new Parser(tokenList);
         List<StatementNode> parsedCode = miParser.Parse();
@@ -42,7 +45,7 @@ public class hello {
     }
 
     static void testSemantic() throws LexerException, SemanticException {
-        Lexer miLexer = new Lexer("int a = 10;\nprint(a);\na = 20;");
+        Lexer miLexer = new Lexer(miStr);
         List<Token> tokenList = miLexer.GetTokenList();
         Parser miParser = new Parser(tokenList);
         List<StatementNode> parsedCode = miParser.Parse();
@@ -53,7 +56,7 @@ public class hello {
     }
 
     static void testGenerateCode() throws LexerException, SemanticException {
-        Lexer miLexer = new Lexer("int a = 10 + 5;\nprint(a);\na = 20;");
+        Lexer miLexer = new Lexer(miStr);
         List<Token> tokenList = miLexer.GetTokenList();
         Parser miParser = new Parser(tokenList);
         List<StatementNode> parsedCode = miParser.Parse();

@@ -14,6 +14,7 @@ public enum TokenTypes {
     RW_STRING,      //reserved word "string"
     RW_WHILE,       //reserved word "while"
     RW_IF,          //reserved word "if"
+    RW_ELSE,        //reserved word "else"
     OPEN_PAR,       //left parenthesis
     CLOSE_PAR,      //right parenthesis
     OPEN_CRLY_BRKT, //left curly bracket

@@ -3,15 +3,14 @@ package Parser;
 import Lexer.Token;
 import Lexer.TokenTypes;
 import Semantic.Tree.Expression.*;
-import Semantic.Tree.Statement.AssignationNode;
-import Semantic.Tree.Statement.PrintNode;
-import Semantic.Tree.Statement.StatementNode;
+import Semantic.Tree.Statement.*;
 import Semantic.Types.IntType;
 import Semantic.Types.Type;
 import jdk.nashorn.internal.runtime.ParserException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by chusm on 6/18/2017.
@@ -76,6 +75,37 @@ public class Parser {
             assignationNode.setLeftValue(id);
             assignationNode.setRightValue(expression);
             return assignationNode;
+        } else if (utilities.isWhile(CurrentToken)){
+            consumeWhile();
+            consumeOpenPar();
+            ExpressionNode condition = Expression();
+            consumeClosePar();
+            consumeOpenCurlyBrackets();
+            List<StatementNode> statementList = StatementList();
+            consumeCloseCurlyBrackets();
+            WhileNode whileNode = new WhileNode();
+            whileNode.setConditional(condition);
+            whileNode.setStatementList(statementList);
+            return whileNode;
+        } else if (utilities.isIf(CurrentToken)){
+            consumeIf();
+            consumeOpenPar();
+            ExpressionNode condition = Expression();
+            consumeClosePar();
+            consumeOpenCurlyBrackets();
+            List<StatementNode> statementListTrue = StatementList();
+            consumeCloseCurlyBrackets();
+            IfNode ifNode = new IfNode();
+            ifNode.setConditional(condition);
+            ifNode.setStatementListTrue(statementListTrue);
+            if (!utilities.isElse(CurrentToken))
+                return ifNode;
+            consumeElse();
+            consumeOpenCurlyBrackets();
+            List<StatementNode> statementListFalse = StatementList();
+            consumeCloseCurlyBrackets();
+            ifNode.setStatementListFalse(statementListFalse);
+            return ifNode;
         } else if (utilities.isPrint(CurrentToken)) {
             consumePrint();
             ExpressionNode expression = Expression();
@@ -84,7 +114,7 @@ public class Parser {
             printNode.setValue(expression);
             return printNode;
         } else{
-            throwParserException("Expected identifier or 'print'");
+            throwParserException("Expected type, identifier, while, if, or 'print'");
         }
         return null;
     }
@@ -146,6 +176,12 @@ public class Parser {
         } else if (utilities.isLiteralInt(CurrentToken)) {
             LiteralIntNode litInt = consumeLiteralInt();
             return litInt;
+        } else if (utilities.isLiteralString(CurrentToken)){
+            LiteralStringNode litString = consumeLiteralString();
+            return litString;
+        } else if (utilities.isLiteralBoolean(CurrentToken)){
+            LiteralBooleanNode litBoolean = consumeLiteralBoolean();
+            return litBoolean;
         } else if (utilities.isOpenPar(CurrentToken)) {
             consumeOpenPar();
             ExpressionNode expression = Expression();
@@ -230,6 +266,31 @@ public class Parser {
         return returnNode;
     }
 
+    LiteralStringNode consumeLiteralString() {
+        if (CurrentToken.getType() != TokenTypes.LIT_STRING) {
+            throwParserException("Expected a literal string");
+        }
+        Token tmpToken = CurrentToken;
+        consumeToken();
+        LiteralStringNode returnNode = new LiteralStringNode();
+        returnNode.setValue(tmpToken.getLexeme());
+        return returnNode;
+    }
+
+    LiteralBooleanNode consumeLiteralBoolean() {
+        if (CurrentToken.getType() != TokenTypes.LIT_BOOLEAN) {
+            throwParserException("Expected a literal boolean");
+        }
+        Token tmpToken = CurrentToken;
+        consumeToken();
+        LiteralBooleanNode returnNode = new LiteralBooleanNode();
+        if (Objects.equals(tmpToken.getLexeme(), "true"))
+            returnNode.setValue(true);
+        else
+            returnNode.setValue(false);
+        return returnNode;
+    }
+
     void consumeMult() {
         if (CurrentToken.getType() != TokenTypes.OP_MULT) {
             throwParserException("Expected op mult");
@@ -300,6 +361,13 @@ public class Parser {
     void consumeIf() {
         if (CurrentToken.getType() != TokenTypes.RW_IF) {
             throwParserException("Expected 'if'");
+        }
+        consumeToken();
+    }
+
+    void consumeElse() {
+        if (CurrentToken.getType() != TokenTypes.RW_ELSE) {
+            throwParserException("Expected 'else'");
         }
         consumeToken();
     }

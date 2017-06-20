@@ -111,4 +111,22 @@ public class ParserUtilities {
             return true;
         return false;
     }
+
+    boolean isElse(Token token) {
+        if (token.getType() == TokenTypes.RW_ELSE)
+            return true;
+        return false;
+    }
+
+    boolean isLiteralString(Token token) {
+        if (token.getType() == TokenTypes.LIT_STRING)
+            return true;
+        return false;
+    }
+
+    boolean isLiteralBoolean(Token token) {
+        if (token.getType() == TokenTypes.LIT_BOOLEAN)
+            return true;
+        return false;
+    }
 }
