@@ -30,6 +30,6 @@ public class SubNode extends BinaryOperatorNode{
 
     @Override
     public String GenerateCode() {
-        return this.getLeftOperand() + " - " + this.getRightOperand();
+        return this.getLeftOperand().GenerateCode() + " - " + this.getRightOperand().GenerateCode();
     }
 }

@@ -30,6 +30,6 @@ public class PrintNode extends StatementNode {
 
     @Override
     public String GenerateCode() {
-        return "console.log(" + getValue() + ");";
+        return "console.log(" + getValue().GenerateCode() + ");";
     }
 }

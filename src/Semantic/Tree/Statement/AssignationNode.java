@@ -69,9 +69,9 @@ public class AssignationNode extends StatementNode{
     @Override
     public String GenerateCode() {
 
-        if (this.getType() != null) {
-            return getLeftValue() + " = " + getRightValue() + ";";
+        if (this.getType() == null) {
+            return getLeftValue().GenerateCode() + " = " + getRightValue().GenerateCode() + ";";
         }
-        return "var " + getLeftValue() + " = " + getRightValue() + ";";
+        return "var " + getLeftValue().GenerateCode() + " = " + getRightValue().GenerateCode() + ";";
     }
 }

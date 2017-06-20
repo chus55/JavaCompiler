@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class hello {
     public static void main(String[] args) throws LexerException, SemanticException {
-        testSemantic();
+        testGenerateCode();
     }
 
     static void testLexer() throws LexerException {
@@ -50,5 +50,16 @@ public class hello {
             statement.ValidateSemantic();
         }
         System.out.println("Semantic success");
+    }
+
+    static void testGenerateCode() throws LexerException, SemanticException {
+        Lexer miLexer = new Lexer("int a = 10 + 5;\nprint(a);\na = 20;");
+        List<Token> tokenList = miLexer.GetTokenList();
+        Parser miParser = new Parser(tokenList);
+        List<StatementNode> parsedCode = miParser.Parse();
+        for (StatementNode statement : parsedCode) {
+            System.out.println(statement.GenerateCode());
+        }
+        System.out.println("Generate code success");
     }
 }
