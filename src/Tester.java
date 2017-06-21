@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by chusm on 6/18/2017.
  */
-public class hello {
+public class Tester {
 
     static String miStr = "int a = 10;\nprint(a);\na = 20;\nstring hola = \"Hello world\";\nboolean miBool = true;\nif(true){int b = 10;} else {int b = 20;}\nwhile(true){int b = 10;}";
 
