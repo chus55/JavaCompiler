@@ -4,7 +4,9 @@ import Lexer.Token;
 import Lexer.TokenTypes;
 import Semantic.Tree.Expression.*;
 import Semantic.Tree.Statement.*;
+import Semantic.Types.BooleanType;
 import Semantic.Types.IntType;
+import Semantic.Types.StringType;
 import Semantic.Types.Type;
 import jdk.nashorn.internal.runtime.ParserException;
 
@@ -334,6 +336,10 @@ public class Parser {
         consumeToken();
         if (tmpToken.getType() == TokenTypes.RW_INT)
             return new IntType();
+        if (tmpToken.getType() == TokenTypes.RW_BOOLEAN)
+            return new BooleanType();
+        if (tmpToken.getType() == TokenTypes.RW_STRING)
+            return new StringType();
         return null;
     }
 

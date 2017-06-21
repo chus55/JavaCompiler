@@ -3,6 +3,7 @@ package Semantic.Tree.Expression;
 import Interpretation.Value;
 import Semantic.SemanticException;
 import Semantic.Types.IntType;
+import Semantic.Types.StringType;
 import Semantic.Types.Type;
 
 /**
@@ -14,9 +15,9 @@ public class SumNode extends BinaryOperatorNode {
 
         Type leftType = LeftOperand.ValidateSemantic();
         Type rightType = RightOperand.ValidateSemantic();
-        if (leftType.getClass() == rightType.getClass())
+        if ((leftType.getClass() == rightType.getClass()) || (leftType instanceof StringType && rightType instanceof IntType))
         {
-            if (leftType instanceof IntType)
+            if ((leftType instanceof IntType) || (leftType instanceof StringType && rightType instanceof IntType))
                 return leftType;
         }
         throw new SemanticException("Can't sum " + leftType.toString() + " and " + rightType.toString());

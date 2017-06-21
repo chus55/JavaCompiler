@@ -2,6 +2,8 @@ package Semantic.Tree.Statement;
 
 import Semantic.SemanticException;
 import Semantic.Tree.Expression.ExpressionNode;
+import Semantic.Types.BooleanType;
+import Semantic.Types.Type;
 
 import java.util.List;
 
@@ -40,7 +42,20 @@ public class IfNode extends StatementNode {
 
     @Override
     public void ValidateSemantic() throws SemanticException {
+        Type conditional = Conditional.ValidateSemantic();
 
+        if (!(conditional instanceof BooleanType))
+            throw new SemanticException("Condition must be of type boolean and not " +  conditional.toString());
+
+        for (StatementNode statement : StatementListTrue) {
+            statement.ValidateSemantic();
+        }
+
+        if (StatementListFalse != null){
+            for (StatementNode statement : StatementListFalse) {
+                statement.ValidateSemantic();
+            }
+        }
     }
 
     @Override

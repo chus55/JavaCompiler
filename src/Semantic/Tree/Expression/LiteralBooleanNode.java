@@ -2,6 +2,7 @@ package Semantic.Tree.Expression;
 
 import Interpretation.Value;
 import Semantic.SemanticException;
+import Semantic.Types.BooleanType;
 import Semantic.Types.Type;
 
 /**
@@ -21,7 +22,7 @@ public class LiteralBooleanNode extends ExpressionNode {
 
     @Override
     public Type ValidateSemantic() throws SemanticException {
-        return null;
+        return new BooleanType();
     }
 
     @Override
