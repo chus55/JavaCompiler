@@ -15,7 +15,7 @@ public class hello {
     static String miStr = "int a = 10;\nprint(a);\na = 20;\nstring hola = \"Hello world\";\nboolean miBool = true;\nif(true){int b = 10;} else {int b = 20;}\nwhile(true){int b = 10;}";
 
     public static void main(String[] args) throws LexerException, SemanticException {
-        testSemantic();
+        testGenerateCode();
     }
 
     static void testLexer() throws LexerException {

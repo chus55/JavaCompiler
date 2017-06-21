@@ -32,6 +32,6 @@ public class LiteralBooleanNode extends ExpressionNode {
 
     @Override
     public String GenerateCode() {
-        return null;
+        return Boolean.toString(this.Value);
     }
 }

@@ -65,6 +65,25 @@ public class IfNode extends StatementNode {
 
     @Override
     public String GenerateCode() {
-        return null;
+
+        String condition = "if( "+ getConditional().GenerateCode() +" ) {\n" ;
+
+        String body = "";
+
+        for (StatementNode stm : StatementListTrue) {
+            body += "\t" + stm.GenerateCode();
+        }
+
+        if (getStatementListFalse() != null) {
+            body += "\n} \nelse {\n";
+
+            for (StatementNode stm : StatementListFalse) {
+                body  += "\t" + stm.GenerateCode();
+            }
+        }
+
+        body += "\n}";
+
+        return condition + body;
     }
 }

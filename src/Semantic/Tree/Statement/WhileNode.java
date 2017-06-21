@@ -50,6 +50,16 @@ public class WhileNode extends StatementNode {
 
     @Override
     public String GenerateCode() {
-        return null;
+
+        String header = "while( " + this.getConditional().GenerateCode() + " ) {\n";
+        String body = "";
+
+        for (StatementNode stm : StatementList) {
+            body += "\t" + stm.GenerateCode();
+        }
+
+        body += "\n}";
+
+        return header + body;
     }
 }
